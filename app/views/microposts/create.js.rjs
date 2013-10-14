@@ -1,0 +1,3 @@
+page.insert_html :top, :microposts, @micropost.content
+page[@micropost].visual_effect :highlight
+page[:new_micropost].reset

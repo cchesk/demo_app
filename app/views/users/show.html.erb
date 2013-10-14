@@ -10,5 +10,41 @@
   <%= @user.email %>
 </p>
 
+<p>
+  <strong>New Micropost:</strong>
+  <%= form_for [@user, Micropost.new], :remote => true do |f| %>
+  <%= hidden_field_tag(:authenticity_token, form_authenticity_token) %>
+  <div class="field">
+    <%= f.label :content %><br>
+    <%= f.text_field :content %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+</p>
+
+<p>
+  <strong>Microposts:</strong>
+  <% I18n.locale = :de %> 
+  <div id="microposts">
+    <% @user.microposts.reverse.each do |micropost| %>
+    (vor <%=time_ago_in_words(micropost.created_at) %>)
+    <%= micropost.content %>
+    <br />
+    <% end %>
+  </div>
+</p>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
+
+<script language="javascript" type="text/javascript">
+$(document).ready(function() {
+        // get data every 5 mins and refresh myDiv
+        var pingAfter = 10000;  
+        var refreshId = setInterval(function() {
+            $("#microposts").load('/users/<%= @user.id %> #microposts');
+        }, pingAfter);
+    });
+</script>

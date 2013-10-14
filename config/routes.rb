@@ -1,7 +1,14 @@
 DemoApp::Application.routes.draw do
-  resources :microposts
+  # resources :microposts
 
-  resources :users
+  resources :users do
+    resources :microposts
+  end
+
+  match 'users/:user_id/microposts/:action' => 'microposts#:action', :as => :microposts, via: [:get, :post]
+  # match 'users/8/microposts/:action/:id' => 'microposts#:action', :as => :micropost, via: [:get, :post]
+
+  root 'users#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
