@@ -26,13 +26,14 @@
 
 <p>
   <strong>Microposts:</strong>
-  <% I18n.locale = :de %> 
+  <div id="micropostsWrapper">
   <div id="microposts">
     <% @user.microposts.reverse.each do |micropost| %>
-    (vor <%=time_ago_in_words(micropost.created_at) %>)
+    (<%=time_ago_in_words(micropost.created_at) %> ago)
     <%= micropost.content %>
     <br />
     <% end %>
+  </div>
   </div>
 </p>
 
@@ -42,9 +43,10 @@
 <script language="javascript" type="text/javascript">
 $(document).ready(function() {
         // get data every 5 mins and refresh myDiv
-        var pingAfter = 10000;  
+        var pingAfter = 1000;  
         var refreshId = setInterval(function() {
-            $("#microposts").load('/users/<%= @user.id %> #microposts');
+            oldText = $("#microposts").html();
+            $("#micropostsWrapper").load('/users/<%= @user.id %> #microposts');
         }, pingAfter);
     });
 </script>
