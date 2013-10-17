@@ -40,13 +40,56 @@
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
 
+<%= javascript_include_tag :'jquery.timeago' %>
 <script language="javascript" type="text/javascript">
-$(document).ready(function() {
-        // get data every 5 mins and refresh myDiv
+$(document).ready(
+  function() {
+        var done = 'lol';
+        // get data periodically and refresh microposts
         var pingAfter = 10000;  
         var refreshId = setInterval(function() {
-            oldText = $("#microposts").html();
-            $("#micropostsWrapper").load('/users/<%= @user.id %> #microposts');
+            $.getJSON('/users/<%= @user.id %>/microposts.json', function(data)
+            {
+              
+            // Showing effect for new posts. Not working yet.
+            //   var newMicroposts = [];
+            //   for(var i = 0; i < data.length; i++)
+            //   {
+            //     if ($.inArray(data[i].id, oldMicroposts) == -1)
+            //     {
+            //       newMicroposts.push(data[i]);
+            //     }
+            //   }
+            //   addMicroposts(newMicroposts);
+            // });
         }, pingAfter);
     });
+
+// Showing effect for new posts. Not working yet.
+// function addMicroposts(microposts)
+// {
+//   if (microposts.length == 0)
+//     return null;
+
+//   var newContent = '</span><br />';
+
+//   oldMicroposts.push(microposts[0].id);
+//   var time_ago_in_words = $.timeago(microposts[0].created_at);
+//   newContent = '(' + time_ago_in_words + ') ' + microposts[0].content + newContent;
+
+//   for (var i = 1; i < microposts.length; i++)
+//   {
+//     oldMicroposts.push(microposts[i].id);
+//     var time_ago_in_words = $.timeago(microposts[i].created_at);
+//     newContent = '(' + time_ago_in_words + ') ' + microposts[i].content + '<br />' + newContent;
+//   }
+
+//   newContent = '<span class="new" style="display:none">' + newContent;
+//   $('#microposts').prepend(newContent);
+//   $('.new').toggle('highlight');
+//   $('.new').removeClass('new');
+// }
+
+// var oldMicroposts = [];
+
 </script>

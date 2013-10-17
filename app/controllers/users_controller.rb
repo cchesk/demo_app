@@ -11,10 +11,10 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    # respond_to do |format|
-    #   format.html # index.html.erb
-    #   format.js { render action: 'show' }
-    # end
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render action: 'show' }
+    end
   end
 
   # GET /users/new
